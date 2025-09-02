@@ -53,7 +53,8 @@ module.exports = function (RED) {
 				}
 			};
 			const chartCallback = (ChartJS) => {
-				ChartJS.pluginService.register({
+				ChartJS.register({
+  id: 'custom-background',
 					beforeDraw: function (chart) {
 						if (chart.config.options.chartArea && chart.config.options.chartArea.backgroundColor) {
 							var ctx = chart.chart.ctx;
@@ -69,7 +70,7 @@ module.exports = function (RED) {
 					let pluginsToAdd = Object.getOwnPropertyNames(msg.plugins);
 					pluginsToAdd.forEach(plugin => {
 						node.log(plugin + ' has been registered to chart plugins');
-						ChartJS.plugins.register(msg.plugins[plugin]);
+						ChartJS.register(msg.plugins[plugin]);
 					});
 				}
 				var displayDataLabels;
@@ -80,8 +81,8 @@ module.exports = function (RED) {
 					displayDataLabels = false;
 				}
 				if (displayDataLabels) {
-					ChartJS.plugins.register(DataLabels);
-				} else ChartJS.plugins.unregister(DataLabels);
+					ChartJS.register(DataLabels);
+				} else ChartJS.unregister(DataLabels);
 			};
 			const canvasOptions = {
 				'width': this.width,
